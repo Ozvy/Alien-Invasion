@@ -22,8 +22,8 @@ class AlienInvasion:
         other events that run in the game.
         _update_screen(self): displays everything on the screen and updates anything on the screen to its new position.
         _check_keydown_event(self, event): Checks if the key is pressed down. Keys:
-            K_Right: fires an event that makes the ship move right.
-            K_Left: Ditto, but left.
+            K_up: fires an event that makes the ship move up.
+            K_down: Ditto, but down.
             K_Space: Plays a sound when pressed and makes the ship fire a bullet.
             K_q: exits out of the game.
         _check_keyup_event(self, event): Checks if the key is not being pressed. if it isn't pressed, keep the ship completely still.
