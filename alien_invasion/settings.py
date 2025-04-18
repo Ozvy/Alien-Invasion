@@ -6,7 +6,8 @@ class Settings:
     '''
     def __init__(self):
         '''
-        Some aspects of the game that can be changed easily. Includes the screen and ship's size and image used.
+        Some aspects of the game that can be changed easily. Includes basically everything that defines the
+        size, appearance, and movement speed of objects.
         '''
         self.name: str = 'Alien Invasion'
         self.screen_w = 1200
@@ -34,4 +35,13 @@ class Settings:
         self.fleet_speed = 4
         self.fleet_direction = 1
         self.fleet_drop_speed = 5
+
+        self.button_w = 200
+        self.button_h = 50
+        self.button_color = (0, 135, 50)
+
+        self.text_color = (255, 255, 255)
+        self.button_font_size = 48
+        self.HUD_font_size = 20
+        self.font_file = Path.cwd() / 'Assets' / 'Fonts' / 'Silkscreen' / 'Silkscreen-Bold.ttf'
     

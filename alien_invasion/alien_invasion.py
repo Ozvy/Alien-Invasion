@@ -7,6 +7,7 @@ from arsenal import Arsenal
 # from alien import Alien
 from alien_fleet import AlienFleet
 from time import sleep
+from button import Button
 
 class AlienInvasion:
     """
@@ -50,7 +51,8 @@ class AlienInvasion:
         self.ship = ship(self, Arsenal(self))
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.create_fleet()
-        self.game_active = True
+        self.play_button = Button(self, 'Play')
+        self.game_active = False
 
         self.impact_sound = pygame.mixer.Sound(self.settings.impact_sound)
         self.impact_sound.set_volume(0.7)
@@ -106,7 +108,15 @@ class AlienInvasion:
         self.ship.arsenal.arsenal.empty()
         self.alien_fleet.fleet.empty()
         self.alien_fleet.create_fleet()
-        
+    
+    def restart_game (self):
+
+        self._reset_level()
+        self.ship._center_ship()
+        self.game_active = True
+        pygame.mouse.set_visible(False)
+        # reset game stats
+        # update hud scores
 
     def _update_screen(self):
         '''
@@ -114,23 +124,36 @@ class AlienInvasion:
         '''
         self.screen.blit(self.bg, (0,0))
         self.ship.draw()
+
+        if not self.game_active:
+            self.play_button.draw()
+            pygame.mouse.set_visible(True)
+
         self.alien_fleet.draw()
         pygame.display.flip()
 
 
     def _check_events(self):
         '''
-        Makes sure the game properly closes when the user closes the game.
+        Checks for button pressed events and the game quitting.
         '''
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN and self.game_active == True:
                 self._check_keydown_event(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_event(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self._check_button_clicked()
+
+    def _check_button_clicked(self):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.play_button.check_clicked(mouse_pos):
+            self.restart_game()
+
             
 
     def _check_keydown_event(self, event):
@@ -138,8 +161,8 @@ class AlienInvasion:
         Checks if the key is pressed down. if it is, move the ship. 
         
         Keys:
-            K_Right: fires an event that makes the ship move right.
-            K_Left: Ditto, but left.
+            K_Up: fires an event that makes the ship move up.
+            K_Down: Ditto, but down.
             K_Space: Plays a sound when pressed and makes the ship fire a bullet.
             K_q: exits out of the game.
         '''
