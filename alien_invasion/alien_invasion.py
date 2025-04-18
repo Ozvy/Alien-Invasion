@@ -97,7 +97,7 @@ class AlienInvasion:
             self._reset_level()
             self.settings.increase_difficulty()
 
-            self.game_stats.update_level
+            self.game_stats.update_level()
 
 
         
