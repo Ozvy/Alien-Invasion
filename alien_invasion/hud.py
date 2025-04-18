@@ -1,15 +1,28 @@
 import pygame
-# from typing import TYPE_CHECKING
-
-# from alien_invasion import AlienInvasion
-
-# if TYPE_CHECKING:
-    # from alien_invasion import AlienInvasion
 
 class HUD:
+    """
+    Manages the hud. This class is responsible for:
 
+        - The current and high score
+        - The max score achieved in the current session
+        - The current level in the game
+        - The number of remaining lives
+
+    Attributes:
+        padding (int): The spacing in pixels between HUD elements and screen edges.
+
+    Methods:
+        __init__(self, game): Initializes the HUD.
+        setup_life_image(self): Renders the life image.
+        update_scores(self): Updates the the current score, max score, and high score on the counter.
+        _draw_lives(self): Renders the remaining lives on the screen.
+        draw(self): Renders the score and level text on the screen.
+    """
     def __init__(self, game):
-        
+        """
+        Initializes the HUD.
+        """
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
@@ -20,7 +33,7 @@ class HUD:
         self.update_scores()
         self.setup_life_image()
         self.update_level()
-        
+
     def setup_life_image(self):
         self.life_image = pygame.image.load(self.settings.ship_file)
         self.life_image = pygame.transform.scale(self.life_image, (
@@ -30,7 +43,6 @@ class HUD:
 
     
     def update_scores(self):
-        
         self._update_max_score()
         self._update_score()
         self._update_hi_score()
@@ -63,6 +75,9 @@ class HUD:
         self.level_rect.top = self.life_rect.bottom + self.padding
 
     def _draw_lives(self):
+        """
+        Renders the remaining lives on the screen.
+        """
         current_x = self.padding
         current_y = self.padding
         for _ in range(self.game_stats.ships_left):
@@ -70,6 +85,9 @@ class HUD:
             current_x += self.life_rect.width + self.padding
 
     def draw(self):
+        """
+        Renders the score and level text on the screen.
+        """
         self.screen.blit(self.hi_score_image, self.hi_score_rect)
         self.screen.blit(self.max_score_image, self.max_score_rect)
         self.screen.blit(self.score_image, self.score_rect)

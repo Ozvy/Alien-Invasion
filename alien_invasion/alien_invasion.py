@@ -109,6 +109,10 @@ class AlienInvasion:
 
         
     def _check_game_status(self):
+        """
+        Checks the status of the game.  If the player has ships left when level restarts, resets the level.
+        If the player has no ships left, stops the game.
+        """
         if self.game_stats.ships_left > 0:
             self.game_stats.ships_left -= 1
             self._reset_level()
@@ -120,11 +124,21 @@ class AlienInvasion:
         
     
     def _reset_level(self):
+
+        """
+        Destroys remaining bullets on screen, returns the ship to its starting position, and re-generates the fleet.
+        """
+
         self.ship.arsenal.arsenal.empty()
         self.alien_fleet.fleet.empty()
         self.alien_fleet.create_fleet()
     
     def restart_game (self):
+        """
+        When the play button is pressed, this resets the stats, score, centers the ship,
+        and hides the mouse.
+        """
+
         self.settings.initialize_dynamic_settings()
 
         self.game_stats.reset_stats()
@@ -133,8 +147,7 @@ class AlienInvasion:
         self.ship._center_ship()
         self.game_active = True
         pygame.mouse.set_visible(False)
-        # reset game stats
-        # update hud scores
+
 
     def _update_screen(self):
         '''
@@ -170,6 +183,9 @@ class AlienInvasion:
                 self._check_button_clicked()
 
     def _check_button_clicked(self):
+        """
+        Checks if the play button is clicked and starts the game if it is.
+        """
         mouse_pos = pygame.mouse.get_pos()
         if self.play_button.check_clicked(mouse_pos):
             self.restart_game()
